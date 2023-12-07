@@ -1,0 +1,108 @@
+# 작업 디렉토리와 스테이징 영역을 숨김(stash)에 저장하고 작업 폴더를 정리
+git stash
+git stash -m '메시지'
+git stash save
+git stash save '메시지'
+
+# 최근 또는 지정된 임시 저장소 내용을 가져와 반영하고 삭제
+git stash pop
+git stash pop stash@{n}
+
+---------------------------------------------------------------------------
+
+# Git 저장소 초기화 및 작업 시작
+$ git init gline
+$ cd gline
+$ echo 111 > f
+$ git add f
+$ git commit -m 1
+
+# 새로운 브랜치 생성 및 작업
+$ git switch -c topic
+$ echo aaa > g
+$ git add g
+$ git commit -m A
+$ echo bbb >> g
+$ git commit -am B
+
+# 커밋 히스토리 그래프 확인
+$ git log --all --graph --oneline
+
+# 간편한 그래프 로그 명령어 설정 및 실행
+$ git config --global alias.lgag1 'log --all --graph --oneline'
+$ git lgag1
+
+---------------------------------------------------------------------------------
+
+# 브랜치 생성과 초기 상태 설정
+git init gline           # 새로운 Git 저장소 "gline" 초기화
+cd gline                 # "gline" 디렉토리로 이동
+echo 111 > f             # 파일 "f"에 내용 "111" 추가
+git add f                # "f" 파일을 스테이징 영역에 추가
+git commit -m 1          # 스테이징 영역의 변경사항을 커밋
+git switch -c topic      # "topic" 브랜치 생성 및 전환
+echo aaa > g             # 파일 "g"에 내용 "aaa" 추가
+git add g                # "g" 파일을 스테이징 영역에 추가
+git commit -m A          # 스테이징 영역의 변경사항을 커밋
+echo bbb >> g            # 파일 "g"에 내용 "bbb" 추가
+git commit -am B         # 스테이징 영역의 변경사항을 커밋
+git log --all --graph --oneline  # 그래프 형태로 모든 브랜치의 커밋 로그 출력
+git config --global alias.lgag1 'log --all --graph --oneline'  # 명령어에 별칭 설정
+git lgag1                # 별칭으로 설정한 명령어 실행
+
+# 복제를 이용한 브랜치 상태 만들기
+cp -r gline gffm         # "gline" 디렉토리를 "gffm"으로 복사
+cd gffm                  # "gffm" 디렉토리로 이동
+git lgag1                # 그래프 형태로 모든 브랜치의 커밋 로그 출력
+
+# Fast-forward 병합
+git switch main          # "main" 브랜치로 전환
+git merge topic          # "topic" 브랜치를 "main"에 Fast-forward 병합
+git lgag1                # 그래프 형태로 모든 브랜치의 커밋 로그 출력
+
+# Fast-forward 병합 이전 상태로 되돌리기
+git reset --hard 3d00e27  # HEAD를 이전 커밋으로 되돌림
+git lgag1                # 그래프 형태로 모든 브랜치의 커밋 로그 출력
+
+# --ff-only 옵션을 이용한 Fast-forward 병합
+git merge topic --ff-only # --ff-only 옵션으로 Fast-forward 병합 수행
+git lgag1                # 그래프 형태로 모든 브랜치의 커밋 로그 출력
+
+# 3-way 병합
+git merge topic --no-ff  # "topic" 브랜치를 "main"에 3-way 병합
+git lgag1                # 그래프 형태로 모든 브랜치의 커밋 로그 출력
+
+# 직접 메시지 입력한 3-way 병합
+git merge topic --no-ff -m 'merge --no-ff'  # 직접 메시지 입력으로 3-way 병합 수행
+git lgag1                # 그래프 형태로 모든 브랜치의 커밋 로그 출력
+
+# 3-way 병합 이전 상태로 되돌리기
+git reset --hard 3d00e27  # HEAD를 이전 커밋으로 되돌림
+git lgag1                # 그래프 형태로 모든 브랜치의 커밋 로그 출력
+
+# --squash 옵션을 이용한 Squash 병합
+git merge --squash topic # "topic" 브랜치를 "main"에 Squash 병합
+git commit -m 'Squash merge 3AB'  # Squash 병합 커밋 생성
+git lgag1                # 그래프 형태로 모든 브랜치의 커밋 로그 출력
+ls                       # 현재 디
+
+-------------------------------------------------------------------------------------------------
+
+# 최신 커밋 메시지 수정
+git commit --amend -m 'new message'
+
+# 편집기로 최신 커밋 메시지 수정
+git commit --amend
+
+# 파일 수정 후 추가, 메시지 수정 없이 최신 커밋으로 수정
+git commit --amend --no-edit
+
+# 이전 커밋 HEAD~2..HEAD까지 각각의 커밋을 수정
+git rebase --interactive HEAD~
+
+# 주요 rebase –i 대화형 명령어
+- p(ick): 해당 커밋을 수정하지 않고 그대로 사용
+- r(eword): 개별 커밋 메시지를 다시 작성
+- s(quash): 계속된 이후 커밋을 이전 커밋에 결합
+- d(rop): 커밋 자체를 삭제
+
