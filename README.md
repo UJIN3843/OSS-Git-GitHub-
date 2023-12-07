@@ -50,5 +50,16 @@ git commit -m "커밋 메시지"
 # 📝 화면에 메시지 출력
 echo "메시지 내용"
 
+# 📁 파일 삭제
+git rm <파일 이름>            # 작업 폴더와 스테이징 영역에서 파일(f) 삭제
+git rm --cached <파일 이름>   # 스테이징 영역에서만 파일(f) 삭제
+
+# 🚀 Git Bash 명령어
+
+# 📁 파일 복구
+git restore <파일 이름>                           # 작업 폴더에서 파일(f) 복구
+git restore --staged <파일 이름>                  # 스테이징 영역에서 파일(f) 복구
+git restore --source=HEAD --worktree <파일 이름>  # 깃 저장소의 HEAD에서 작업 폴더에 파일(f) 복구
+git restore --source=HEAD --staged --worktree <파일 이름>  # 깃 저장소의 HEAD에서 스테이징 영역과 작업 폴더에 파일(f) 복구
 
 # 🌟 깃허브 기본 명령어 모음집 🚀
