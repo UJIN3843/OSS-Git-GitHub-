@@ -33,9 +33,6 @@ git config --list
 # 🖊️ 기본 편집기 설정
 git config --global core.editor 'code --wait'
 
-# 🔄 기본 편집기 조회 및 참고
-git config --global --get core.editor
-
 # 👤 사용자 정보 설정
 git config --global user.name "Your Alias"
 git config --global user.email "your.email@example.com"
